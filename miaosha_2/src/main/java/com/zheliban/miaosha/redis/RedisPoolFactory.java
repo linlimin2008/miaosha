@@ -9,19 +9,19 @@ import redis.clients.jedis.JedisPoolConfig;
 
 @Service
 public class RedisPoolFactory {
-	
-	@Autowired
-	RedisConfig redisConfig;
-	
-	@Bean	//告诉方法，产生一个bean，并交给Spring容器
-	public JedisPool JedisPoolFactory() {
-		JedisPoolConfig poolConfig = new JedisPoolConfig();
-		poolConfig.setMaxTotal(redisConfig.getPoolMaxTotal());
-		poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());
-		poolConfig.setMaxWaitMillis(redisConfig.getPoolMaxWait() * 1000);
-		JedisPool jedisPool = new JedisPool();
+
+    @Autowired
+    RedisConfig redisConfig;
+
+    @Bean    //告诉方法，产生一个bean，并交给Spring容器
+    public JedisPool JedisPoolFactory() {
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxTotal(redisConfig.getPoolMaxTotal());
+        poolConfig.setMaxIdle(redisConfig.getPoolMaxIdle());
+        poolConfig.setMaxWaitMillis(redisConfig.getPoolMaxWait() * 1000);
+        JedisPool jedisPool = new JedisPool();
 // 		JedisPool jp = new JedisPool(poolConfig, redisConfig.getHost(), redisConfig.getPort(), redisConfig.getTimeout()*1000, redisConfig.getPassword(), 0);
-		JedisPool jp = new JedisPool(poolConfig, redisConfig.getHost(), redisConfig.getPort(), redisConfig.getTimeout()*1000);
-		return jp;
-	}
+        JedisPool jp = new JedisPool(poolConfig, redisConfig.getHost(), redisConfig.getPort(), redisConfig.getTimeout() * 1000);
+        return jp;
+    }
 }
