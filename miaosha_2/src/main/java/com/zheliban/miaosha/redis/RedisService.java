@@ -11,7 +11,7 @@ import redis.clients.jedis.JedisPool;
 public class RedisService {        //希望通过service来提供redis的服务
 
     @Autowired        //让Spring完成Bean的自动装配工作
-            JedisPool jedisPool;
+    JedisPool jedisPool;
 
     @Autowired
     RedisConfig redisConfig;
