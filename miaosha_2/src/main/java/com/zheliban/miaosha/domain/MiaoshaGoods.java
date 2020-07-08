@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class MiaoshaGoods {
     private Long id;
-    private Long goodsld;
+    private Long goodsId;
     private Integer stockCount;
     private Date startDate;
     private Date endDate;
@@ -23,12 +23,12 @@ public class MiaoshaGoods {
         this.id = id;
     }
 
-    public Long getGoodsld() {
-        return goodsld;
+    public Long getGoodsId() {
+        return goodsId;
     }
 
-    public void setGoodsld(Long goodsld) {
-        this.goodsld = goodsld;
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
     }
 
     public Integer getStockCount() {

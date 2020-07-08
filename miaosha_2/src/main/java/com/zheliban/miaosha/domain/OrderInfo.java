@@ -10,9 +10,9 @@ import java.util.Date;
  */
 public class OrderInfo {
     private Long id;
-    private Long userld;
-    private Long goodsld;
-    private Long deliveryAddrld;
+    private Long userId;
+    private Long goodsId;
+    private Long deliveryAddrId;
     private String goodsName;
     private Integer goodsCount;
     private Double goodsPrice;
@@ -29,28 +29,28 @@ public class OrderInfo {
         this.id = id;
     }
 
-    public Long getUserld() {
-        return userld;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserld(Long userld) {
-        this.userld = userld;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getGoodsld() {
-        return goodsld;
+    public Long getGoodsId() {
+        return goodsId;
     }
 
-    public void setGoodsld(Long goodsld) {
-        this.goodsld = goodsld;
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
     }
 
-    public Long getDeliveryAddrld() {
-        return deliveryAddrld;
+    public Long getDeliveryAddrId() {
+        return deliveryAddrId;
     }
 
-    public void setDeliveryAddrld(Long deliveryAddrld) {
-        this.deliveryAddrld = deliveryAddrld;
+    public void setDeliveryAddrId(Long deliveryAddrId) {
+        this.deliveryAddrId = deliveryAddrId;
     }
 
     public String getGoodsName() {

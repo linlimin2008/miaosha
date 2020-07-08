@@ -1,6 +1,8 @@
 package com.zheliban.miaosha.service;
 
 import com.zheliban.miaosha.dao.GoodsDao;
+import com.zheliban.miaosha.domain.Goods;
+import com.zheliban.miaosha.domain.MiaoshaGoods;
 import com.zheliban.miaosha.domain.MiaoshaUser;
 import com.zheliban.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,11 @@ public class GoodsService {
 
     public GoodsVo getGoodsVoByGoodsId(long goodsId) {
         return goodsDao.getGoodsVoByGoodsId(goodsId);
+    }
+
+    public void reduceStock(GoodsVo goods) {
+        MiaoshaGoods g = new MiaoshaGoods();
+        g.setGoodsId(goods.getId());
+        goodsDao.reduceStock(g);
     }
 }

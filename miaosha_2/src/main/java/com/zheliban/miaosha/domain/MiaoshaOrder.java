@@ -8,9 +8,9 @@ package com.zheliban.miaosha.domain;
  */
 public class MiaoshaOrder {
     private Long id;
-    private Long userld;
-    private Long orderld;
-    private Long goodsld;
+    private Long userId;
+    private Long orderId;
+    private Long goodsId;
 
     public Long getId() {
         return id;
@@ -20,27 +20,27 @@ public class MiaoshaOrder {
         this.id = id;
     }
 
-    public Long getUserld() {
-        return userld;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserld(Long userld) {
-        this.userld = userld;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getOrderld() {
-        return orderld;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrderld(Long orderld) {
-        this.orderld = orderld;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    public Long getGoodsld() {
-        return goodsld;
+    public Long getGoodsId() {
+        return goodsId;
     }
 
-    public void setGoodsld(Long goodsld) {
-        this.goodsld = goodsld;
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
     }
 }
