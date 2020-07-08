@@ -24,7 +24,7 @@
         }
 
         body {
-            background: url('/static/img/bg2.jpg') no-repeat;
+            background: url('img/bg2.jpg') no-repeat;
             background-size: 100% 100%;
         }
 
@@ -54,18 +54,18 @@
         <td>秒杀开始时间</td>  
         <td th:text="${#dates.format(goods.startDate,'yyyy-MM-dd HH:mm:ss')}"></td>
          <td id ="miaoshaTip">
-             <span th:if="miaoshaStatus ==0">秒杀倒计时：<span id="countDown"></span>秒</span>
-             <span th:if="miaoshaStatus ==1">秒杀进行中</span>
-             <span th:if="miaoshaStatus ==2">秒杀已结束</span>
+             <span th:if="miaoshaStatus eq 0">秒杀倒计时：<span id="countDown"></span>秒</span>
+             <span th:if="miaoshaStatus eq 1">秒杀进行中</span>
+             <span th:if="miaoshaStatus eq 2">秒杀已结束</span>
          </td>
         <td >	
-        	<input type="hidden" id="remainSeconds" />
+        	<input type="hidden" id="remainSeconds" th:value="${remainSeconds}"/>
         	<span id="miaoshaTip"></span>
         </td>
-         <form id="miaoshaForm" method="post" action="/miaosha/do_miaosha">
-             <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>
-             <input type="hidden" name="goodsId"  th:value="${goods.id}" />
-         </form>
+<!--         <form id="miaoshaForm" method="post" action="/miaosha/do_miaosha">-->
+<!--             <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>-->
+<!--             <input type="hidden" name="goodsId"  th:value="${goods.id}" />-->
+<!--         </form>-->
         <td>
         <!--  
         	-->
@@ -198,8 +198,8 @@ function render(detail){
 }
 
 $(function(){
-	//countDown();
-	getDetail();
+	countDown();
+	// getDetail();
 });
 
 function getDetail(){
