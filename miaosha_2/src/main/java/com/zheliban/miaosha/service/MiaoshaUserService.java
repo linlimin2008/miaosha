@@ -25,8 +25,8 @@ public class MiaoshaUserService {
 
     public static final String COOKIE_NAME_TOKEN = "token";
 
-
-    MiaoshaUserDao miaoshaUserDao;
+    @Autowired
+    private MiaoshaUserDao miaoshaUserDao;
 
     @Autowired
     RedisService redisService;
@@ -35,13 +35,16 @@ public class MiaoshaUserService {
         return miaoshaUserDao.getById(id);
     }
 
-    public MiaoshaUser getByToken(String token) {
+    public MiaoshaUser getByToken(HttpServletResponse response,String token) {
         if (StringUtils.isEmpty(token)) {
             return null;
         }
-        //从缓存里取
-        return redisService.get(MiaoShaUserKey.token, token, MiaoshaUser.class);
-
+        MiaoshaUser user = redisService.get(MiaoShaUserKey.token, token, MiaoshaUser.class);
+        if (user!=null){
+            //延长有效期
+            addCookie(response,user);
+        }
+        return user;
     }
 
     /*
@@ -68,16 +71,25 @@ public class MiaoshaUserService {
         if (!calcPass.equals(dbPass)) {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
+
         //生成cookie,写到response里去
+//        String token = UUIDUtil.uuid();
+//        redisService.set(MiaoShaUserKey.token, token, user);
+//        Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
+//        cookie.setMaxAge(MiaoShaUserKey.token.expireSeconds());//设置cookie的有效期为MiaoShaUserKey.toke键前缀的有效期
+//        cookie.setPath("/");//设置为网站的根目录
+//        response.addCookie(cookie);//将cookie写到客户端里面去
+        addCookie(response,user);
+        return true;
+
+    }
+
+    private void addCookie (HttpServletResponse response, MiaoshaUser user){
         String token = UUIDUtil.uuid();
         redisService.set(MiaoShaUserKey.token, token, user);
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
         cookie.setMaxAge(MiaoShaUserKey.token.expireSeconds());//设置cookie的有效期为MiaoShaUserKey.toke键前缀的有效期
         cookie.setPath("/");//设置为网站的根目录
         response.addCookie(cookie);//将cookie写到客户端里面去
-        return true;
-
-
     }
-
 }

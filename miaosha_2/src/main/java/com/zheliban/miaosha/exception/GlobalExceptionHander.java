@@ -23,6 +23,7 @@ public class GlobalExceptionHander {
     @ExceptionHandler(value = Exception.class)//	所有的异常都需要拦截
 
     public Result<String> exceptionHander(HttpServletRequest request, Exception e) {
+        e.printStackTrace();
         if (e instanceof GlobalException) {//如果是全局异常
             GlobalException ex = (GlobalException) e;
             return Result.error(ex.getCm());
