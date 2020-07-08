@@ -42,7 +42,7 @@ public class MiaoshaUserService {
         MiaoshaUser user = redisService.get(MiaoShaUserKey.token, token, MiaoshaUser.class);
         if (user!=null){
             //延长有效期
-            addCookie(response,user);
+            addCookie(response,token,user);
         }
         return user;
     }
@@ -71,21 +71,13 @@ public class MiaoshaUserService {
         if (!calcPass.equals(dbPass)) {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-
-        //生成cookie,写到response里去
-//        String token = UUIDUtil.uuid();
-//        redisService.set(MiaoShaUserKey.token, token, user);
-//        Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
-//        cookie.setMaxAge(MiaoShaUserKey.token.expireSeconds());//设置cookie的有效期为MiaoShaUserKey.toke键前缀的有效期
-//        cookie.setPath("/");//设置为网站的根目录
-//        response.addCookie(cookie);//将cookie写到客户端里面去
-        addCookie(response,user);
+        String token = UUIDUtil.uuid();
+        addCookie(response,token,user);
         return true;
 
     }
 
-    private void addCookie (HttpServletResponse response, MiaoshaUser user){
-        String token = UUIDUtil.uuid();
+    private void addCookie (HttpServletResponse response,String token, MiaoshaUser user){
         redisService.set(MiaoShaUserKey.token, token, user);
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
         cookie.setMaxAge(MiaoShaUserKey.token.expireSeconds());//设置cookie的有效期为MiaoShaUserKey.toke键前缀的有效期
