@@ -1,6 +1,6 @@
 package com.zheliban.miaosha.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class MiaoshaUser {
     private Long id;
