@@ -61,9 +61,15 @@ public class GoodsController {
         return html; //跳转到商品列表
     }
 
-    @RequestMapping("/to_detail/{goodsId}")
-    public String to_detail(Model model, MiaoshaUser user, @PathVariable("goodsId")long goodsId) {//
+    @RequestMapping(value = "/to_detail/{goodsId}",produces = "text/html")
+    @ResponseBody
+    public String to_detail(Model model, MiaoshaUser user, @PathVariable("goodsId")long goodsId, HttpServletRequest request, HttpServletResponse response) {//
         model.addAttribute("user", user);
+        String html = redisService.get(GoodsKey.getGoodsDetail,""+goodsId,String.class);
+        if (!StringUtils.isEmpty(html)){
+            return html;
+        }
+
         GoodsVo goods =goodsService.getGoodsVoByGoodsId(goodsId);
         model.addAttribute("goods",goods);
         long startAt = goods.getStartDate().getTime();
@@ -83,6 +89,14 @@ public class GoodsController {
         }
         model.addAttribute("miaoshaStatus",miaoshaStatus);
         model.addAttribute("remainSeconds",remainSeconds);
-        return "goods_detail"; //跳转到商品列表
+//        return "goods_detail"; //跳转到商品列表
+        //Sping5中SpringWebContext方法过时
+        IWebContext ctx =new WebContext(request,response,
+                request.getServletContext(),request.getLocale(),model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail",ctx);
+        if (!StringUtils.isEmpty(html)){
+            redisService.set(GoodsKey.getGoodsDetail,""+goodsId,html);
+        }
+        return html;
     }
 }
