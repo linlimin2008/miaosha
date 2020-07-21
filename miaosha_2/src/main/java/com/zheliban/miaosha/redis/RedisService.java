@@ -72,6 +72,20 @@ public class RedisService {        //希望通过service来提供redis的服务
     }
 
     /*
+     * 判断对象是否存在
+     */
+    public boolean delete(KeyPrefix prefix, String key) {//判断键是否存在
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String realKey = prefix.getPrefix() + key;//拼接真正的键
+            return jedis.del(key)>0;
+        } finally {
+            returnToPool(jedis);
+        }
+    }
+
+    /*
      * 增加值
      */
     public <T> Long incr(KeyPrefix prefix, String key) {//

@@ -44,12 +44,12 @@ public class GoodsController {
     @ResponseBody
     public String to_list(Model model, MiaoshaUser user, HttpServletRequest request, HttpServletResponse response) {//
         model.addAttribute("user", user);
-        List<GoodsVo> list = goodsService.listGoodsVo();
-        model.addAttribute("goodsList", list);
         String html = redisService.get(GoodsKey.getGoodsList,"",String.class);
         if (!StringUtils.isEmpty(html)){
             return html;
         }
+        List<GoodsVo> list = goodsService.listGoodsVo();
+        model.addAttribute("goodsList", list);
         //手动渲染
         //Sping5中SpringWebContext方法过时
         IWebContext ctx =new WebContext(request,response,
