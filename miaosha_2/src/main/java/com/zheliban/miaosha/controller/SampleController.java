@@ -1,6 +1,7 @@
 package com.zheliban.miaosha.controller;
 
 import com.zheliban.miaosha.domain.User;
+import com.zheliban.miaosha.rabbitmq.MQSender;
 import com.zheliban.miaosha.redis.RedisService;
 import com.zheliban.miaosha.redis.UserKey;
 import com.zheliban.miaosha.result.CodeMsg;
@@ -21,6 +22,15 @@ public class SampleController {
 
     @Autowired
     RedisService redisService;
+    @Autowired
+    MQSender sender;
+
+    @RequestMapping("/mq")
+    @ResponseBody
+    public  Result<String> mq() {
+        sender.send("hello 0cm!");
+        return Result.success("hello world");
+    }
 
     @RequestMapping("/")
     @ResponseBody

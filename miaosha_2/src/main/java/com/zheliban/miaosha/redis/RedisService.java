@@ -79,7 +79,7 @@ public class RedisService {        //希望通过service来提供redis的服务
         try {
             jedis = jedisPool.getResource();
             String realKey = prefix.getPrefix() + key;//拼接真正的键
-            return jedis.del(key)>0;
+            return jedis.del(realKey)>0;
         } finally {
             returnToPool(jedis);
         }
@@ -118,7 +118,7 @@ public class RedisService {        //希望通过service来提供redis的服务
      * 因此，读出来的时候要把字符串转换bean对象
      */
     @SuppressWarnings("unchecked")
-    private <T> T stringToBean(String str, Class<T> clazz) {    //把String类型的值转换成T类型的值
+    public static  <T> T stringToBean(String str, Class<T> clazz) {    //把String类型的值转换成T类型的值
         if (str == null || str.length() <= 0 || clazz == null) {
             return null;
         }
@@ -133,7 +133,7 @@ public class RedisService {        //希望通过service来提供redis的服务
         }
     }
 
-    private <T> String beanToString(T value) {    //把bean对象转换成String对象
+    public static  <T> String beanToString(T value) {    //把bean对象转换成String对象
         if (value == null) {
             return null;
         }
