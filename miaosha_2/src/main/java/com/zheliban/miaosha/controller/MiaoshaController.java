@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @功能:
@@ -47,6 +49,8 @@ public class MiaoshaController implements InitializingBean {
     @Autowired
     MQSender mqSender;
 
+    private Map<Long,Boolean> localOverMap = new HashMap<Long,Boolean>();
+
     /**
      * 系统初始化
      * @throws Exception
@@ -56,6 +60,7 @@ public class MiaoshaController implements InitializingBean {
         if (goodsVoList !=null){
             for (GoodsVo vo:goodsVoList) {
                 redisService.set(GoodsKey.getMiaoshaGoodsStock,""+vo.getId(),vo.getStockCount());
+                localOverMap.put(vo.getId(),false);
             }
         }
 
@@ -68,10 +73,14 @@ public class MiaoshaController implements InitializingBean {
         if (user == null){
             return Result.error(CodeMsg.SESION_ERROR);
         }
+        if (localOverMap.get(goodsId)){
+            return Result.error(CodeMsg.MIAO_SHA_OVER);
+        }
         //将商品数量加载到缓存中
         long stock = redisService.decr(GoodsKey.getMiaoshaGoodsStock,""+goodsId);
         //预减库存
         if (stock<0){
+            localOverMap.put(goodsId,true);
             return Result.error(CodeMsg.MIAO_SHA_OVER);
         }
         //判断是否已经秒杀到了
