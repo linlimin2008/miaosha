@@ -25,6 +25,27 @@ public class SampleController {
     @Autowired
     MQSender sender;
 
+    @RequestMapping("/mq/header")
+    @ResponseBody
+    public  Result<String> header() {
+        sender.sendHeader("hello 0cm header!");
+        return Result.success("hello world");
+    }
+
+    @RequestMapping("/mq/fanout")
+    @ResponseBody
+    public  Result<String> fanout() {
+        sender.sendFanout("hello 0cm fanout!");
+        return Result.success("hello world");
+    }
+
+    @RequestMapping("/mq/topic")
+    @ResponseBody
+    public  Result<String> topic() {
+        sender.sendTopic("hello 0cm topic!");
+        return Result.success("hello world");
+    }
+
     @RequestMapping("/mq")
     @ResponseBody
     public  Result<String> mq() {
